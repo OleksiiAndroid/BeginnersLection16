@@ -197,6 +197,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return widget;
     }
 
+    public ArrayList<Widget> getWidgetsByStudent(long id) {
+        ArrayList<Widget> widgets = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor = null;
+        try {
+            cursor = db.query(Widget.TABLE_NAME, null, Widget.COLUMN_ID_STUDENT + "=" + id, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    Widget widget = new Widget();
+
+                    widget.id = cursor.getLong(cursor.getColumnIndex(Widget.COLUMN_ID));
+                    widget.idStudent = cursor.getLong(cursor.getColumnIndex(Widget.COLUMN_ID_STUDENT));
+                    widget.idWidget = cursor.getLong(cursor.getColumnIndex(Widget.COLUMN_ID_WIDGET));
+
+                    widgets.add(widget);
+
+                    cursor.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return widgets;
+    }
+
     public int deleteWidget(int id) {
         int count = 0;
         SQLiteDatabase db = getWritableDatabase();

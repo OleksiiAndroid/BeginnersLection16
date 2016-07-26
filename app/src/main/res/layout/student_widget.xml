@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:background="#09C"
     android:orientation="vertical"
+    android:id="@+id/viewWidget"
     android:padding="@dimen/widget_margin">
 
     <TextView

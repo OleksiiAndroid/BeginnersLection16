@@ -1,9 +1,13 @@
 package ua.com.webacademy.beginnerslection16;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
+
+import java.util.Random;
 
 public class StudentWidget extends AppWidgetProvider {
 
@@ -18,6 +22,13 @@ public class StudentWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.textViewFirstName, student.FirstName);
             views.setTextViewText(R.id.textViewLastName, student.LastName);
             views.setTextViewText(R.id.textViewAge, String.valueOf(student.Age));
+
+            Intent intent = new Intent(context, EditActivity.class);
+            intent.putExtra(EditActivity.EXTRA_ID, student.id);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, new Random().nextInt(), intent, 0);
+
+            views.setOnClickPendingIntent(R.id.viewWidget, pendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
